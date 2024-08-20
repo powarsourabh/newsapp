@@ -1,0 +1,28 @@
+
+<nav class="navbar navbar-expand-lg bg-primary fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#" style="color: aliceblue;" routerLink="/news">Home</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+
+  
+
+  <div *ngIf="article; else noArticle" style="padding-top: 80px;">
+    <div class="news-detail">
+      <h1>{{ article.title }}</h1>
+      <img [src]="article.urlToImage" alt="{{ article.title }}" />
+      <p>{{ article.description }}</p>
+      <p><strong>Author:</strong> {{ article.author }}</p>
+      <p><strong>Published At:</strong> {{ article.publishedAt | date:'medium' }}</p>
+      <p><strong>Content:</strong> {{ article.content }}</p>
+      <a [href]="article.url" target="_blank">Read the full article</a>
+    </div>
+  </div>
+  
+  <ng-template #noArticle>
+    <p>No article data available.</p>
+  </ng-template>
+  

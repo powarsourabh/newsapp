@@ -1,0 +1,77 @@
+<nav class="navbar navbar-expand-lg bg-primary fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#" style="color: aliceblue;" routerLink="/news">NewsApp</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</nav>
+
+
+
+<div class="container" style="padding-top: 80px;">
+
+    <div *ngIf="loading" class="text-center">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+
+    <div class="filter-container">
+        <div class="filter-item">
+            <label for="country">Country:</label>
+            <select id="country" [(ngModel)]="selectedCountry" (change)="filterNews()">
+                <option value="">All</option>
+                <option value="us">United States</option>
+                <option value="uk">United Kingdom</option>
+                <option value="in">India</option>
+                <option value="au">Australia</option>
+            </select>
+        </div>
+
+        <div class="filter-item">
+            <label for="fromDate">From:</label>
+            <input type="date" id="fromDate" [(ngModel)]="fromDate" (change)="filterNews()">
+        </div>
+        <div class="filter-item">
+            <label for="toDate">To:</label>
+            <input type="date" id="toDate" [(ngModel)]="toDate" (change)="filterNews()">
+        </div>
+
+        <div class="filter-item">
+            <label for="searchTerm">Search:</label>
+            <input type="text" id="searchTerm" [(ngModel)]="searchTerm" (input)="filterNews()"
+                placeholder="Search news" />
+        </div>
+    </div>
+
+</div>
+
+
+
+<div class="news-container" *ngIf="filteredNews.length > 0; else noNews">
+
+    <div class="news-item"
+        *ngFor="let article of filteredNews | paginate: { itemsPerPage: pageSize, currentPage: page }"
+        (click)="goToDetail(article)" style="cursor: pointer;">
+        <h3>{{ article.title }}</h3>
+        <img [src]="article.urlToImage" alt="{{ article.title }}" />
+        <p>{{ article.description }}</p>
+        <p><strong>Author:</strong> {{ article.author }}</p>
+        <a [href]="article.url" target="_blank">Read more</a>
+    </div>
+
+
+</div>
+
+<div class="container">
+
+    <pagination-controls (pageChange)="page = $event"></pagination-controls>
+</div>
+
+
+<ng-template #noNews>
+    <p>No news available.</p>
+</ng-template>
